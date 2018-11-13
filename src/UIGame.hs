@@ -63,7 +63,7 @@ renderGame c | c ^. clientConnected =
   let wf = renderForm (c ^. clientUI . uiGameForm)
       wc = str $ "Connected to "
         ++ c ^. clientSettings . settingsServerName
-        ++ ", game round is " ++ show (_gameRound g)
+        ++ ", game round " ++ show (_gameRound g)
       wd = (str "You are playing as: ") <+>
            str (show side)
       wb = str " "
@@ -78,12 +78,18 @@ renderGame c | c ^. clientConnected =
              then str "READY"
              else str "THINKING"
       wl = str "Last winner: " <+> str (descrOutcome o)
+      p1wins = g ^. gamePlayer1Wins
+      p2wins = g ^. gamePlayer2Wins
+      wt = B.borderWithLabel (str "Total wins") $
+             str ("Player 1: " ++ show p1wins) <+>
+             str "  |  " <+>
+             str ("Player 2: " ++ show p2wins)
   in
     [ C.center $ hLimit 60 $
       B.borderWithLabel
       (str "Game")
       (padAll 1 $ wc <=> wb <=> wd <=>  ws <=> wf
-        <=> wb <=> wo <=> wb <=> wl) ]
+        <=> wb <=> wo <=> wb <=> wl <=> wb <=> wt) ]
 
 
 gameHandleEvent ::
