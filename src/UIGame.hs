@@ -63,7 +63,7 @@ renderGame c | c ^. clientConnected =
   let wf = renderForm (c ^. clientUI . uiGameForm)
       wc = str $ "Connected to "
         ++ c ^. clientSettings . settingsServerName
-        ++ ", game round " ++ show (_gameRound g)
+        ++ ", at game round " ++ show (_gameRound g)
       wd = (str "You are playing as: ") <+>
            str (show side)
       wb = str " "
